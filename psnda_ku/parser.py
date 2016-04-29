@@ -23,6 +23,7 @@ def load_planet(file):
             bd.append(kd)
             j+=1
         print('Всего',j,'экзопланет загружено.')
+        return header
 def d_url():
     url = 'http://exoplanet.eu/catalog/dat/'
     destination = 'exoplanet.eu_catalog.dat'
@@ -132,7 +133,7 @@ else:
         d_url()
         print('Обновление выполнено.')
 
-load_planet(file)
+header=load_planet(file)
 okruglenie()
 k_set=[]
 otnPeriod(k_set,n)
@@ -144,15 +145,16 @@ starSPanet(bdStar)
 bdStarSist={}
 findRezonans(bdStarSist)
 
+print('Расчётные центры зон жизни:')
 for st in bdStarSist:
     for pl in bdStarSist[st]:
-#        print ('зв({0})-пл({1}):    \tst_r = {2} st_Teff = {3}'.format(st, pl['name'], pl['star_radius'],pl['star_teff']),end=' ')
+        print ('star({0})-planet({1}):\tstar_radius = {2}\tstar_Teff = {3}'.format(st, pl['name'], pl['star_radius'],pl['star_teff']),end='\t')
         zz=-1
         if (pl['star_radius']) != '' and pl['star_teff'] != '':
             zz=float(pl['star_radius'])*float(pl['star_teff'])*float(pl['star_teff'])/36000000
-        print ('З.ж. зв: {0}'.format(zz),end='\t')
+        print ('habitable zone: {0}'.format(zz),end='\t')
         if pl['semi_major_axis'] != '' and pl['eccentricity'] != '':
             apa= (1+float(pl['eccentricity']))*float(pl['semi_major_axis'])
             peri = (1-float(pl['eccentricity']))*float(pl['semi_major_axis'])
-            print('peri = {0}, apa = {1}'.format(peri,apa),end='')
+            print('pericenter = {0}\tapocenter = {1}'.format(peri,apa),end='')
         print('')
